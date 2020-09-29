@@ -14,30 +14,30 @@ class Course(models.Model):
     description = models.TextField()
     instructor = models.CharField(max_length=200)
     duration = models.DateTimeField()
-    type = models.CharField()
-    status = models.BooleanFeild()
-    price = models.FloatFeidl()
+    types = models.CharField(max_length=20)
+    status = models.BooleanField()
+    price = models.FloatField()
     course_slug = models.SlugField()
-    category = models.ForeignKey('Category', related_name='', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
 
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
-    ordered = models.BooleanFeild()
-    items = models.ForeignKey(Course)
+    ordered = models.BooleanField()
+    items = models.ForeignKey(Course,on_delete=models.CASCADE)
     doc = models.DateTimeField(auto_now_add=True) 
 
 
 class Order(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     ref_code = models.CharField(max_length=15)
-    ordered = models.BooleanFeild()
+    ordered = models.BooleanField()
     items = models.ManyToManyField(OrderItem)
     starting_date = models.DateTimeField()
     ordered_date = models.DateTimeField()
-    status = models.BooleanFeild()
+    status = models.BooleanField()
 
 
 
