@@ -37,7 +37,14 @@
 
             <li><a href="" class="btn small orange darken-3">Apply For
                 Admission</a></li>
-            <li><a href="" class="btn grey darken-3">Login </a></li>
+              {% if user.is_authenticated %}
+                 <li><a href="{% url 'account_logout' %}" class="btn grey darken-3">Logout </a></li>
+
+              {% else %}
+               <li><a href="{% url 'account_login'%}" class="btn grey darken-3">Login </a></li>
+
+              {% endif %}
+           
           </ul>
         </div>
       </div>

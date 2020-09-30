@@ -57,106 +57,15 @@
 
 <div class="container-fluid px-lg-5" id="courses">
     <div class="row px-lg-5 mx-lg-5">
-        <div class="col s12 text-center">
-            <h5 class="mb-1">Industrial Training</h5>
-            <p class="small mt-0">Grow your skills for industry 4.0</p>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/php-1-logo.png' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase small" style="line-height: 1.4em"><strong>Web
-                                    Development using
-                                    Codeigniter & Mysqli (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>6 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 10</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹6500</strong> </span>
-                                <del class="small">₹8500</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
+       
+        <div class="row">
+            {% for cat in object_list %}
+            <div class="col l3">
+                {{ cat.cat_title }}
             </div>
+            {% endfor %}
         </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/django-logo-negative.png' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase small" style="line-height: 1.4em"><strong>Python
-                                    Django + SQLite
-                                    Web Development (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>6 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 12</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹6500</strong> </span>
-                                <del class="small">₹9500</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/220px-React-icon.svg.png' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase small" style="line-height: 1.4em"><strong>Django +
-                                    ReactJs API
-                                    Full Stack Development (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>6 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 12</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹6500</strong> </span>
-                                <del class="small">₹9500</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/1117652_2764_8.jpg' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase small" style="line-height: 1.4em"><strong>Python +
-                                    WX Desktop
-                                    APP Development (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>6 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 4</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹6000</strong> </span>
-                                <del class="small">₹7500</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
+      
 
 
     </div>
@@ -168,295 +77,32 @@
             <h5 class="mb-1">Our Regular Courses</h5>
             <p class="small mt-0">Select courses which is best fit for you</p>
         </div>
+        {% for course in courses %}
         <div class="col s12 m3">
             <div class="card">
                 <div class="card-image">
-                    <img src="{% static 'image/1200px-Python-logo-notext.svg.png' %}"
+                    <img src="{{ course.image.url }}"
                         style="width:100%;height: 200px;object-fit: contain" class="">
                 </div>
                 <div class="card-stacked">
-                    <a href=""
+                    <a href="{% url 'course' course.slug %}"
                         class="stretched-link text-black-50">
                         <div class="card-content pb-4">
                             <h6 class="text-black-50 text-uppercase text-truncate" style="line-height: 1.4em">
-                                <strong>python basic
-                                    (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>6 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 10</p>
+                                <strong>{{course.title}}</strong></h6>
+                            <p class="small"><b>Durations: </b>{{course.duration}}</p>
+                            <p class="small"><b>Category: </b>{{course.category}}</p>
                             <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹1500</strong> </span>
-                                <del class="small">₹5000</del>
+                                <span class="green-text"><strong>{{ course.discount_price }} </strong> </span>
+                                <del class="small">{{ course.price }}</del>
                             </h6>
                         </div>
                     </a>
                 </div>
             </div>
         </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/php-1-logo.png' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase text-truncate" style="line-height: 1.4em">
-                                <strong>php & mysqli
-                                    (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>8 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 8</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹1800</strong> </span>
-                                <del class="small">₹4500</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/logo-HTML-CSS.jpg' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase text-truncate" style="line-height: 1.4em">
-                                <strong>html5 & css3
-                                    (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>10 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 5</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹1400</strong> </span>
-                                <del class="small">₹3000</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/advancephp_simple.png' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase text-truncate" style="line-height: 1.4em">
-                                <strong>php advance
-                                    oop (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>10 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 5</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹1300</strong> </span>
-                                <del class="small">₹7500</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/django-logo-negative.png' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase text-truncate" style="line-height: 1.4em">
-                                <strong>Python Django
-                                    (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>10 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 12</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹2500</strong> </span>
-                                <del class="small">₹8000</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/141px-Java_programming_language_logo.svg.png' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase text-truncate" style="line-height: 1.4em">
-                                <strong>Java Basic
-                                    (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>4 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 6</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹1500</strong> </span>
-                                <del class="small">₹3000</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/220px-React-icon.svg.png' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase text-truncate" style="line-height: 1.4em">
-                                <strong>ReactJs
-                                    (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>4 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 12</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹2300</strong> </span>
-                                <del class="small">₹5500</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/download.png' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase text-truncate" style="line-height: 1.4em">
-                                <strong>Codeigniter
-                                    (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>4 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 12</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹1900</strong> </span>
-                                <del class="small">₹5000</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/1117652_2764_8.jpg' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase text-truncate" style="line-height: 1.4em">
-                                <strong>Advance Django
-                                    (online) only for django developers</strong></h6>
-                            <p class="small"><b>Durations: </b>10 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 4</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹700</strong> </span>
-                                <del class="small">₹9000</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/laravel-logo.png' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase text-truncate" style="line-height: 1.4em">
-                                <strong>Laravel
-                                    (online)</strong></h6>
-                            <p class="small"><b>Durations: </b>2 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 6</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹1500</strong> </span>
-                                <del class="small">₹8000</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/cpp.png' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase text-truncate" style="line-height: 1.4em">
-                                <strong>advance C &
-                                    c++</strong></h6>
-                            <p class="small"><b>Durations: </b>6 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 10</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹1600</strong> </span>
-                                <del class="small">₹3200</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'image/vb.net-logo.png' %}"
-                        style="width:100%;height: 200px;object-fit: contain" class="">
-                </div>
-                <div class="card-stacked">
-                    <a href=""
-                        class="stretched-link text-black-50">
-                        <div class="card-content pb-4">
-                            <h6 class="text-black-50 text-uppercase text-truncate" style="line-height: 1.4em">
-                                <strong>Vb.net (BASIC)
-                                </strong></h6>
-                            <p class="small"><b>Durations: </b>6 Weeks</p>
-                            <p class="small"><b>No of Assignments:</b> 12</p>
-                            <h6 class="pt-2 mb-0">
-                                <span class="green-text"><strong>₹800</strong> </span>
-                                <del class="small">₹1800</del>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
+        {% endfor %}
+      
 
     </div>
 </div>

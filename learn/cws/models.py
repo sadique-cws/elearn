@@ -3,7 +3,7 @@ from django.conf import settings
 # Create your models here.
 class Category(models.Model):
     cat_title = models.CharField(max_length=200)
-    cat_slug = models.SlugField()
+    slug = models.SlugField()
     cat_description = models.TextField()
 
     def __str__(self):
@@ -19,7 +19,7 @@ class Course(models.Model):
     status = models.BooleanField(default=True)
     price = models.FloatField()
     discount_price = models.FloatField(null=True)
-    course_slug = models.SlugField()
+    slug = models.SlugField()
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
 
     def __str__(self):

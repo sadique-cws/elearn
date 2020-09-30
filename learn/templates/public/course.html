@@ -1,0 +1,40 @@
+{% extends 'public/base.html' %}
+
+
+{% block content %}
+
+ <div class="container-fluid px-lg-5 mt-3">
+    <div class="row px-lg-5">
+        <div class="col s12">
+            <div class="card">
+            <div class="row">
+                      <div class="col s12 l4">
+                           <div class="card-image p-lg-4">
+                            <img src="{{ object.image.url }}" alt="Advance Django (online) only for django developers-image"style="width:100%;height: 250px;object-fit: contain" >
+                </div>
+                      </div>
+
+                <div class="col s12 l8">
+                       <div class="card-content">
+                <h5 class="mt-0 text-capitalize heading-title h5">{{ object.title }}</h5>
+                    <p class="small">{{ object.description }}</p>
+                    <p class="small mt-3">Trainer: <strong>{{ object.instructor}}</strong></p>
+                    <h5 class="mt-4">
+                                    <span class="green-text"><strong>{{object.discount_price }}</strong> </span>
+                                            <del class="small">₹{{object.price }}</del>
+                                                          </h5>
+                    <a href="https://www.codewithsadiq.com/student/add_to_cart/advance-django-online" class="btn orange px-5 font-weight-bolder">Add to Cart</a>
+                </div>
+                </div>
+                </div>
+
+            </div>
+
+        
+        </div>
+
+    </div>
+    </div>
+
+
+{% endblock content %}
