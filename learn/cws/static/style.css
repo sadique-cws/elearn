@@ -10,6 +10,16 @@
   float: none !important;
 }
 
+.cards{
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.cards:hover{
+  transform: scale(1.2);
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
+}
+
 
 
 
