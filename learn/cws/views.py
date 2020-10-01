@@ -1,6 +1,7 @@
 from django.shortcuts import redirect,render
 from cws.models import *
 from django.views.generic import ListView,View,DetailView
+from django.core.exceptions import ObjectDoesNotExist
 
 
 
@@ -27,3 +28,20 @@ class CourseView(DetailView):
     #     return context
     
 
+
+class OrderSummary(View):
+
+    def get(self,*args,**kwargs):
+        try:
+            order = Order.objects.filter(user=self.request.user,ordered=False)
+            context = {"order":order}
+        except ObjectDoesNotExist:
+            #todo msg: order not found
+            return redirect("/")
+        return render(self.request,"public/cart.html",context)
+
+    model = Order
+    template_name = "public/cart.html"
+
+    
+    
