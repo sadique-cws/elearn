@@ -13,8 +13,6 @@
 .cards{
   transition: 0.5s ease;
   cursor: pointer;
-  height: 300px;
-  width: 30px;
 }
 
 .cards:hover{
