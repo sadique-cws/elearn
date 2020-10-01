@@ -1,8 +1,8 @@
-from django.shortcuts import redirect,render
+from django.shortcuts import redirect,render,get_object_or_404
 from cws.models import *
 from django.views.generic import ListView,View,DetailView
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.utils import timezone
 
 
 class HomeView(ListView):
@@ -33,7 +33,7 @@ class OrderSummary(View):
 
     def get(self,*args,**kwargs):
         try:
-            order = Order.objects.filter(user=self.request.user,ordered=False)
+            order = OrderItem.objects.filter(user=self.request.user,ordered=False)
             context = {"order":order}
         except ObjectDoesNotExist:
             #todo msg: order not found
@@ -45,3 +45,34 @@ class OrderSummary(View):
 
     
     
+class AddToCart(View):
+    def get(self,request,slug,*args,**kwargs):
+        item = get_object_or_404(Course,slug=slug)
+
+        order_item, create = OrderItem.objects.get_or_create(
+            items=item,
+            user = self.request.user,
+            ordered=False
+        )
+        
+        order_qs = Order.objects.filter(user=self.request.user,ordered=False)
+        
+        if order_qs.exists():
+            order = order_qs[0]
+            if OrderItem.objects.filter(items__slug=item.slug).exists():
+                #todo msg: this item already in your cart
+                return redirect('cart')
+            else:
+                 order.items.add(order_item)
+                 #todo msg: this course add in your cart success 
+                 return redirect('cart')
+        else:
+            orderDate = timezone.now()
+            order = Order.objects.create(user=self.request.user,ordered=False,starting_date=orderDate,ordered_date=orderDate)
+            order.items.add(order_item)
+            order.save()
+            #todo : msg: this course add in your cart successfully
+            return redirect("cart")
+
+        
+

@@ -23,7 +23,7 @@
                                     <span class="green-text"><strong>{{object.discount_price }}</strong> </span>
                                             <del class="small">₹{{object.price }}</del>
                                                           </h5>
-                    <a href="https://www.codewithsadiq.com/student/add_to_cart/advance-django-online" class="btn orange px-5 font-weight-bolder">Add to Cart</a>
+                    <a href="{% url 'add-cart' object.slug %}" class="btn orange px-5 font-weight-bolder">Add to Cart</a>
                 </div>
                 </div>
                 </div>
