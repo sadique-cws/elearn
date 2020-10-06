@@ -25,11 +25,17 @@ class Course(models.Model):
     def __str__(self):
         return self.title
 
+
+
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     ordered = models.BooleanField()
     items = models.ForeignKey(Course,on_delete=models.CASCADE)
     doc = models.DateTimeField(auto_now_add=True) 
+
+
+    def get_total_discount(self):
+        return self.items.price - self.items.discount_price
 
 
 class Order(models.Model):

@@ -19,7 +19,7 @@
 
                          <span class="green-text"><strong>₹{{ x.items.discount_price }}</strong> </span>
                         <del class="text-muted small mx-1">₹{{ x.items.discount_price }}</del>
-                        <span class="text-success font-weight-bold small mx-1">Saving ₹3000 32%)</span>
+                        <span class="text-success font-weight-bold small mx-1">Saving {{x.items.get_total_discount}})</span>
                     
                         <a href="https://www.codewithsadiq.com/student/remove_from_cart/python-django-web-development-industrial-training-online" class="badge red-text secondary-content"><i class="material-icons mx-0">delete</i></a>
                     </li>
@@ -56,7 +56,7 @@
                             </li>
 
                         </ul>
-                        
+
                         <div class="card-content px-0 pt-0 pb-5">
                             <input type="text" name="order_id" value="92" hidden="" class="mdl-textfield__input">
                             <input type="submit" class="btn right blue darken-4" value="Proceed to Pay">
