@@ -30,12 +30,19 @@ class Course(models.Model):
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     ordered = models.BooleanField()
-    items = models.ForeignKey(Course,on_delete=models.CASCADE)
+    item = models.ForeignKey(Course,on_delete=models.CASCADE)
     doc = models.DateTimeField(auto_now_add=True) 
 
 
     def get_total_discount(self):
-        return self.items.price - self.items.discount_price
+        return self.item.price - self.item.discount_price
+
+    def get_total(self):
+        return self.item.price
+
+    def get_discount_total(self):
+        return self.item.discount_price
+
 
 
 class Order(models.Model):
@@ -45,6 +52,22 @@ class Order(models.Model):
     items = models.ManyToManyField(OrderItem)
     starting_date = models.DateTimeField()
     ordered_date = models.DateTimeField()
+
+
+    def get_total_price(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_total()
+        return total
+
+    def get_payable_price(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_discount_total()
+        return total
+
+    def get_tatal_save_amount(self):
+        return self.get_total_price() - self.get_payable_price()
 
 
 

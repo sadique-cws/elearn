@@ -12,14 +12,14 @@
             <div class="col l8 s12">
 
                 <ul class="collection">
-                    {% for x in order%}
+                    {% for x in orderitem %}
                     <li class="collection-item avatar">
-                        <img class="circle" width="140px" src="{{x.items.image.url}}" alt="{{ order_item.course.title }}">
-                        <h6 class="mt-0 font-weight-bold text-capitalize">{{x.items.title}}</h6>
+                        <img class="circle" width="140px" src="{{x.item.image.url}}" alt="{{ order_item.course.title }}">
+                        <h6 class="mt-0 font-weight-bold text-capitalize">{{x.item.title}}</h6>
 
-                         <span class="green-text"><strong>₹{{ x.items.discount_price }}</strong> </span>
-                        <del class="text-muted small mx-1">₹{{ x.items.discount_price }}</del>
-                        <span class="text-success font-weight-bold small mx-1">Saving {{x.items.get_total_discount}})</span>
+                         <span class="green-text"><strong>₹{{ x.item.discount_price }}</strong> </span>
+                        <del class="text-muted small mx-1">₹{{ x.item.price }}</del>
+                        <span class="text-success font-weight-bold small mx-1">Saving {{x.item.get_total_discount}})</span>
                     
                         <a href="https://www.codewithsadiq.com/student/remove_from_cart/python-django-web-development-industrial-training-online" class="badge red-text secondary-content"><i class="material-icons mx-0">delete</i></a>
                     </li>
@@ -32,13 +32,13 @@
                     <div class="card-header">Price Details</div>
                     <form action="https://www.codewithsadiq.com/student/PaytmGateway/7YvPGNj" method="post">
                         <ul class="collection">
-                            <li class="collection-item">Total Amount (1) <span class="right">₹9500</span></li>
+                            <li class="collection-item">Total Amount (1) <span class="right">₹{{order.get_total_price }}</span></li>
 
                             
 
-                            <li class="collection-item green text-white">Total Saving<span class="right">₹ 3000</span></li>
+                            <li class="collection-item green text-white">Total Saving<span class="right">₹ {{order.get_tatal_save_amount}}</span></li>
 
-                            <li class="collection-item">Order Amount<span class="right">₹6500</span></li>
+                            <li class="collection-item">Order Amount<span class="right">₹{{order.get_payable_price}}</span></li>
 
                             <li class="collection-item">
                                 <label>

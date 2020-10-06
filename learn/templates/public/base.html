@@ -13,6 +13,8 @@
 </head>
 
 <body>
+  {% if user.is_authenticated %}
+  <!-- with user authenticated -->
   <div class="navbar-fixed">
     <nav>
       <div class="nav-wrapper grey lighten-5 ">
@@ -26,7 +28,58 @@
           </a>
           <ul class="right ">
             <li>
-              <a href="{% url 'cart' %}" class=" black-text"><i class="material-icons left mr-1">shopping_cart</i>Cart
+              <a href="{% url 'cart' %}" class=" black-text"><i
+                  class="material-icons left mr-1">shopping_cart</i>Cart
+                <span class="right">
+                  <sup class="badge text-white red new px-2 py-1 circle">
+                    <!-- todo order count work -->
+                    0 </sup>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <ul class="right hide-on-med-and-down">
+
+            <li><a class='dropdown-trigger black-text text-capitalize'
+                href="" data-target='dropdown1' data-hover="true">
+                Prince <i class="material-icons left mx-1">person</i> <i
+                  class="material-icons right mx-1">arrow_drop_down</i>
+              </a>
+            </li>
+            <ul id='dropdown1' class='dropdown-content ' style="min-width: 200px">
+              <li><a href="" class="black-text"><i
+                    class="material-icons left">computer</i>My Courses</a></li>
+              <li><a href="" class="black-text"><i
+                    class="material-icons left">credit_card</i>My Payments</a></li>
+              <li><a href="" class="black-text"><i
+                    class="material-icons left">dashboard</i>My Dashboard</a></li>
+              <li><a href="" class="black-text">My Profile <i
+                    class="material-icons left">person</i></a></li>
+              <li><a href="{% url 'account_logout' %}" class="white-text red ">Logout <i
+                    class="material-icons left">power_settings_new</i></a></li>
+            </ul>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Without authenticated nav -->
+  {% else %}
+  <div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper grey lighten-5 ">
+        <div class="container">
+          <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large black-text"><i
+              class="material-icons">menu</i></a>
+
+
+          <a href="" class="brand-logo">
+            <img src="{% static 'newlogo.png' %}" alt="logo cws" class="w-75 mt-3">
+          </a>
+          <ul class="right ">
+            <li>
+              <a href="{% url 'cart'%}" class=" black-text"><i class="material-icons left mr-1">shopping_cart</i>Cart
                 <span class="right">
                   <sup class="badge text-white red new px-2 py-1 circle">0</sup>
                 </span>
@@ -35,26 +88,40 @@
           </ul>
           <ul class="right hide-on-med-and-down">
 
-            <li><a href="" class="btn small orange darken-3">Apply For
+            <li><a href="{% url 'account_signup'%}" class="btn small orange darken-3">Apply For
                 Admission</a></li>
-              {% if user.is_authenticated %}
-                 <li><a href="{% url 'account_logout' %}" class="btn grey darken-3">Logout </a></li>
-
-              {% else %}
-               <li><a href="{% url 'account_login'%}" class="btn grey darken-3">Login </a></li>
-
-              {% endif %}
-           
+            <li><a href="{% url 'account_login'%}" class="btn grey darken-3">Login </a></li>
           </ul>
         </div>
       </div>
     </nav>
   </div>
-  <ul id="slide-out" class="sidenav" draggable="true">
-    <li><a href="" class="waves-effect">Apply For Admission</a></li>
-    <li><a href="" class="waves-effect">Login </a></li>
-  </ul>
+  {% endif %}
 
+  <!-- Side navbar -->
+  {% if user.is_authenticated %}
+  <ul id="slide-out" class="sidenav" draggable="true">
+
+    <li>
+      <div class="user-view">
+        <div class="background black">
+        </div>
+        <a href="#name"><span class="white-text name">Prince</span></a>
+        <a href="#email"><span class="white-text email">prince@gmail.com</span></a>
+      </div>
+    </li>
+    <li><a class="waves-effect" href=""><i class="material-icons">dashboard</i>Dashboard</a></li>
+    <li><a class="waves-effect" href=""><i class="material-icons">credit_card</i>My Payment</a></li>
+    <li><a class="waves-effect" href=""><i class="material-icons">computer</i>My Course</a></li>
+    <li><a class="waves-effect" href=""><i class="material-icons">person</i>Profile</a></li>
+    <li><a class="waves-effect" href="{% url 'account_logout' %}"><i class="material-icons">power_settings_new</i>Logout</a></li>
+  </ul>
+  {% else %}
+  <ul id="slide-out" class="sidenav" draggable="true">
+    <li><a href="{% url 'account_signup'%}" class="waves-effect">Apply For Admission</a></li>
+    <li><a href="{% url 'account_login'%}" class="waves-effect">Login </a></li>
+  </ul>
+  {% endif %}
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -102,7 +169,7 @@
   {% endblock %}
 
 
-  
+
   <script type="text/javascript" src="{% static 'main.js'%}"></script>
 
 </body>

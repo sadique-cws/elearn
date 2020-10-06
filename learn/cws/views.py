@@ -27,14 +27,19 @@ class CourseView(DetailView):
     #     context["item"] = Course.objects. 
     #     return context
     
+class CartView(ListView):
+    model = Course
+    template_name = "public/cart.html"
+
 
 
 class OrderSummary(View):
 
     def get(self,*args,**kwargs):
         try:
-            order = OrderItem.objects.filter(user=self.request.user,ordered=False)
-            context = {"order":order}
+            order = Order.objects.get(user=self.request.user,ordered=False)
+            orderItem = OrderItem.objects.filter(user=self.request.user,ordered=False)
+            context = {"order":order,"orderitem":orderItem}
         except ObjectDoesNotExist:
             #todo msg: order not found
             return redirect("/")
@@ -50,7 +55,7 @@ class AddToCart(View):
         item = get_object_or_404(Course,slug=slug)
 
         order_item, create = OrderItem.objects.get_or_create(
-            items=item,
+            item=item,
             user = self.request.user,
             ordered=False
         )
@@ -59,7 +64,7 @@ class AddToCart(View):
         
         if order_qs.exists():
             order = order_qs[0]
-            if OrderItem.objects.filter(items__slug=item.slug).exists():
+            if order.items.filter(item__slug=item.slug).exists():
                 #todo msg: this item already in your cart
                 return redirect('cart')
             else:
