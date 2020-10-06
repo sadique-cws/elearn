@@ -48,8 +48,22 @@ class OrderSummary(View):
     model = Order
     template_name = "public/cart.html"
 
-    
-    
+class RemoveCartItem(View):
+    def get(self,request,slug,*args,**kwargs):
+        item = get_object_or_404(Course,slug=slug)
+
+        order_qs = Order.objects.filter(user=self.request.user,ordered=False)
+        
+        if order_qs.exists():
+            order = order_qs[0]
+            if order.items.filter(item__slug=item.slug).exists():
+                order.items.remove()
+                oi = OrderItem.objects.get(item__slug=item.slug,user=request.user,ordered=False)
+                oi.delete()
+                return redirect('cart')
+        else:
+            return redirect("cart")
+
 class AddToCart(View):
     def get(self,request,slug,*args,**kwargs):
         item = get_object_or_404(Course,slug=slug)
@@ -79,5 +93,29 @@ class AddToCart(View):
             #todo : msg: this course add in your cart successfully
             return redirect("cart")
 
-        
 
+def check_coupon(code):
+    try:
+        coupon = Coupon.objects.get(code=code)
+        return coupon
+    except ObjectDoesNotExist:
+        return redirect("cart")
+    
+
+
+def add_coupon(r):
+    if r.method == "POST":
+        code = r.POST.get('code')
+
+        if check_coupon(code):
+            order = Order.objects.get(user=r.user,ordered=False)
+            order.coupon = check_coupon(code)
+            order.save()
+            return redirect('cart')
+        else:
+            #msg this is code is very very bad we can't accepts
+            return redirect('cart')
+    else:
+        #msg something went wrong 
+        return redirect('cart')
+    

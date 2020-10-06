@@ -21,7 +21,7 @@
                         <del class="text-muted small mx-1">₹{{ x.item.price }}</del>
                         <span class="text-success font-weight-bold small mx-1">Saving {{x.item.get_total_discount}})</span>
                     
-                        <a href="https://www.codewithsadiq.com/student/remove_from_cart/python-django-web-development-industrial-training-online" class="badge red-text secondary-content"><i class="material-icons mx-0">delete</i></a>
+                        <a href="{% url 'remove-from-cart' x.item.slug %}" class="badge red-text secondary-content"><i class="material-icons mx-0">delete</i></a>
                     </li>
                     {% endfor %}
 
@@ -38,22 +38,7 @@
 
                             <li class="collection-item green text-white">Total Saving<span class="right">₹ {{order.get_tatal_save_amount}}</span></li>
 
-                            <li class="collection-item">Order Amount<span class="right">₹{{order.get_payable_price}}</span></li>
-
-                            <li class="collection-item">
-                                <label>
-                                    <input type="radio" value="1" name="type" checked="" class="mdl-textfield__input">
-                                    <span>Full</span>
-                                </label>
-                                <label>
-                                    <input type="radio" value="2" name="type" class="mdl-textfield__input">
-                                    <span>installment</span>
-                                </label>
-                            </li>
-
-                            <li id="Option1" class="collection-item desc Option1 font-weight-bold">Full Payment
-                                (100%)<span class="right">₹6500</span>
-                            </li>
+                            <li class="collection-item font-weight-bold">Payable Amount<span class="right">₹{{order.get_payable_price}}</span></li>
 
                         </ul>
 
@@ -65,14 +50,20 @@
                     </form>
 
                 </div>
-                                <form class="px-2" action="https://www.codewithsadiq.com/student/add_coupon" method="POST">
+                                {% if not order.coupon %}
+
+                                <form class="px-2" action="{%  url 'add-coupon' %}" method="POST">
+                                    {% csrf_token %}
                     <div class="input-field input-group">
-                        <input type="text" name="coupon" placeholder="Coupon Code" class="mdl-textfield__input">
+                        <input type="text" name="code" placeholder="Coupon Code" class="mdl-textfield__input">
                         <span class="suffix">
                             <button class="btn orange waves-effect m-0" type="submit">Redeem</button>
                         </span>
                     </div>
                 </form>
+                {% else %}
+                    <span class="chip red close text-white">{{order.coupon.code}} </span>
+                {% endif %}
                 
             </div>
 

@@ -52,6 +52,7 @@ class Order(models.Model):
     items = models.ManyToManyField(OrderItem)
     starting_date = models.DateTimeField()
     ordered_date = models.DateTimeField()
+    coupon = models.ForeignKey('Coupon',on_delete=models.SET_NULL,null=True)
 
 
     def get_total_price(self):
