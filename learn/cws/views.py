@@ -1,5 +1,5 @@
 from django.shortcuts import redirect,render
-from cws.models import *
+from cws . models import *
 from django.views.generic import ListView,View,DetailView
 
 
@@ -26,4 +26,11 @@ class CourseView(DetailView):
     #     context["item"] = Course.objects. 
     #     return context
     
+class CartView(ListView):
+    model = Course
+    template_name = "public/cart.html"
 
+
+class Dashboard(ListView):
+    model = Course
+    template_name = "account/dashboard.html"

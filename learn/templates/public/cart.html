@@ -1,0 +1,131 @@
+{% extends 'public/base.html' %}
+{% load static %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<main>
+    <div class="container-fluid px-4 mt-4">
+        <h5 class="text-uppercase font-weight-bold">My Carts</h5>
+        <div class="row">
+
+            <div class="col l8 s12">
+
+                <ul class="collection">
+                    <li class="collection-item avatar">
+                        <img class="circle" width="140px"
+                            src="https://www.codewithsadiq.com/assets/media/course/image/django-logo-negative.png"
+                            alt="{{ order_item.course.title }}">
+                        <h6 class="mt-0 font-weight-bold text-capitalize">Python Django + SQLite Web Development
+                            (online)</h6>
+
+                        <span class="green-text"><strong>₹6500</strong> </span>
+                        <del class="text-muted small mx-1">₹9500</del>
+                        <span class="text-success font-weight-bold small mx-1">Saving ₹3000 32%)</span>
+
+
+                        <a href="https://www.codewithsadiq.com/student/remove_from_cart/python-django-web-development-industrial-training-online"
+                            class="badge red-text secondary-content"><i class="material-icons mx-0">delete</i></a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="col l4 s12">
+                <div class="card shadow-sm">
+                    <div class="card-header">Price Details</div>
+                    <form action="https://www.codewithsadiq.com/student/PaytmGateway/NfZPcHZ" method="post">
+                        <ul class="collection">
+                            <li class="collection-item">Total Amount (1) <span class="right">₹9500</span></li>
+
+
+
+                            <li class="collection-item green text-white">Total Saving<span class="right">₹ 3000</span>
+                            </li>
+
+                            <li class="collection-item">Order Amount<span class="right">₹6500</span></li>
+
+                            <li class="collection-item">
+                                <label>
+                                    <input type="radio" value="1" name="type" checked>
+                                    <span>Full</span>
+                                </label>
+                                <label>
+                                    <input type="radio" value="2" name="type">
+                                    <span>installment</span>
+                                </label>
+                            </li>
+
+
+                            <li id="Option2" style="display: none;" class="collection-item desc font-weight-bold">
+                                1st installment (40%)<span class="right">₹2600</span>
+                                <p class="small text-capitalize"><b>Note:</b> <br>This Payment is the 40% of the Total
+                                    Amount. rest amount you need to pay within course duration.</p>
+                            </li>
+                            <li id="Option1" class="collection-item desc Option1 font-weight-bold">Full Payment
+                                (100%)<span class="right">₹6500</span></li>
+                        </ul>
+                        <div class="card-content px-0 pt-0 pb-5">
+                            <input type="text" name="order_id" value="101" hidden />
+                            <input type="submit" class="btn right blue darken-4" value="Proceed to Pay" />
+                            <a href="{% url 'homepage' %}" class="btn left orange darken-4">Go Back</a>
+                        </div>
+                    </form>
+
+                </div>
+                <form class="px-2" action="https://www.codewithsadiq.com/student/add_coupon" method="POST">
+                    <div class="input-field input-group">
+                        <input type="text" name="coupon" placeholder="Coupon Code">
+                        <span class="suffix">
+                            <button class="btn orange waves-effect m-0" type="submit">Redeem</button>
+                        </span>
+                    </div>
+                </form>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</main>
+{% else %}
+<ul id="slide-out" class="sidenav" draggable="true">
+        
+    <li>
+        <div class="user-view">
+            <div class="background black">
+            </div>
+                           <a href="#name"><span class="white-text name">Prince</span></a>
+            <a href="#email"><span class="white-text email">prince@gmail.com</span></a>
+        </div>
+    </li>
+<li><a class="waves-effect" href="https://www.codewithsadiq.com/student/index"><i class="material-icons">dashboard</i>Dashboard</a></li>
+<li><a class="waves-effect" href="https://www.codewithsadiq.com/student/student_payment"><i class="material-icons">credit_card</i>My Payment</a></li>
+<li><a class="waves-effect" href="https://www.codewithsadiq.com/student/student_course"><i class="material-icons">computer</i>My Course</a></li>
+<li><a class="waves-effect" href=""><i class="material-icons">person</i>Profile</a></li>
+<li><a class="waves-effect" href="https://www.codewithsadiq.com/auth/logout"><i class="material-icons">power_settings_new</i>Logout</a></li>
+        </ul>
+
+<main>
+<div class="container-fluid px-4 mt-4">
+    <h5 class="text-uppercase font-weight-bold">My Carts</h5>
+    <div class="row">
+                    <div class="row">
+            <div class="col s12">
+                <div class="card text-center">
+                    <div class="card-content">
+
+                        <h5 class="text-capitalize font-weight-bold">Your cart is empty</h5>
+
+                        <a href="https://www.codewithsadiq.com/welcome/index#courses" class="btn green mx-5 mt-2">Continue Exploring</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+</main> 
+{% endif %}
+
+{% endblock%}
