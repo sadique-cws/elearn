@@ -5,70 +5,60 @@
 {% endblock  %}
 
 {% block content %}
-
     <div class="container">
         <div class="row">
-            
             <div class="col l8 s12">
-
                 <ul class="collection">
                     {% for x in orderitem %}
-                    <li class="collection-item avatar">
-                        <img class="circle" width="140px" src="{{x.item.image.url}}" alt="{{ order_item.course.title }}">
-                        <h6 class="mt-0 font-weight-bold text-capitalize">{{x.item.title}}</h6>
-
-                         <span class="green-text"><strong>₹{{ x.item.discount_price }}</strong> </span>
-                        <del class="text-muted small mx-1">₹{{ x.item.price }}</del>
-                        <span class="text-success font-weight-bold small mx-1">Saving {{x.item.get_total_discount}})</span>
-                    
-                        <a href="{% url 'remove-from-cart' x.item.slug %}" class="badge red-text secondary-content"><i class="material-icons mx-0">delete</i></a>
-                    </li>
+                        <li class="collection-item avatar">
+                            <img class="circle" width="140px" src="{{x.item.image.url}}" alt="{{ order_item.course.title }}">
+                            <h6 class="mt-0 font-weight-bold text-capitalize">{{x.item.title}}</h6>
+                            <span class="green-text"><strong>₹{{ x.item.discount_price }}</strong> </span>
+                            <del class="text-muted small mx-1">₹{{ x.item.price }}</del>
+                            <span class="text-success font-weight-bold small mx-1">(Saving {{x.get_total_discount|floatformat:'0'}})</span>
+                            <a href="{% url 'remove-from-cart' x.item.slug %}" class="badge red-text secondary-content"><i class="material-icons mx-0">delete</i></a>
+                        </li>
                     {% endfor %}
-
-                                    </ul>
+                </ul>
             </div>
             <div class="col l4 s12">
                 <div class="card shadow-sm">
                     <div class="card-header">Price Details</div>
                     <form action="https://www.codewithsadiq.com/student/PaytmGateway/7YvPGNj" method="post">
                         <ul class="collection">
-                            <li class="collection-item">Total Amount (1) <span class="right">₹{{order.get_total_price }}</span></li>
-
-                            
-
-                            <li class="collection-item green text-white">Total Saving<span class="right">₹ {{order.get_tatal_save_amount}}</span></li>
-
-                            <li class="collection-item font-weight-bold">Payable Amount<span class="right">₹{{order.get_payable_price}}</span></li>
-
+                            <li class="collection-item">Total Amount <span class="right">₹{{order.get_total_price|floatformat:'0' }}</span></li>
+                            {% if order.coupon %}
+                                <li class="collection-item blue text-white">
+                                    <a href="{% url 'remove-coupon' %}" class="right text-danger"><i class="material-icons mb-3">delete</i></a>
+                                    <small><u>Coupon Applied</u></small>
+                                    <br>
+                                    <br>
+                                    <span class="chip red close text-white">{{order.coupon.code}} </span>
+                                    <span class="right">₹ {{order.coupon.amount|floatformat:'0'}}</span>
+                                </li>
+                            {% endif %}
+                            <li class="collection-item green text-white">Total Saving<span class="right">₹ {{order.get_total_save_amount|floatformat:'0'}}</span></li>
+                            <li class="collection-item font-weight-bold">Payable Amount<span class="right">₹{{order.get_payable_price|floatformat:'0'}}</span></li>
                         </ul>
-
                         <div class="card-content px-0 pt-0 pb-5">
                             <input type="text" name="order_id" value="92" hidden="" class="mdl-textfield__input">
                             <input type="submit" class="btn right blue darken-4" value="Proceed to Pay">
                             <a href="{% url 'homepage' %}" class="btn left orange darken-4">Go Back</a>
                         </div>
                     </form>
-
                 </div>
-                                {% if not order.coupon %}
-
-                                <form class="px-2" action="{%  url 'add-coupon' %}" method="POST">
-                                    {% csrf_token %}
-                    <div class="input-field input-group">
-                        <input type="text" name="code" placeholder="Coupon Code" class="mdl-textfield__input">
-                        <span class="suffix">
+                {% if not order.coupon %}
+                    <form class="px-2" action="{%  url 'add-coupon' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="input-field input-group">
+                            <input type="text" name="code" placeholder="Coupon Code" class="mdl-textfield__input">
+                            <span class="suffix">
                             <button class="btn orange waves-effect m-0" type="submit">Redeem</button>
                         </span>
-                    </div>
-                </form>
-                {% else %}
-                    <span class="chip red close text-white">{{order.coupon.code}} </span>
+                        </div>
+                    </form>
                 {% endif %}
-                
             </div>
-
-            
         </div>
-
     </div>
 {% endblock  %}

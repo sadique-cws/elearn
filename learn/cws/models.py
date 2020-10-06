@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 # Create your models here.
+
+
 class Category(models.Model):
     cat_title = models.CharField(max_length=200)
     slug = models.SlugField()
@@ -8,7 +10,8 @@ class Category(models.Model):
 
     def __str__(self):
         return self.cat_title
-    
+
+
 class Course(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -26,13 +29,11 @@ class Course(models.Model):
         return self.title
 
 
-
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     ordered = models.BooleanField()
-    item = models.ForeignKey(Course,on_delete=models.CASCADE)
-    doc = models.DateTimeField(auto_now_add=True) 
-
+    item = models.ForeignKey(Course, on_delete=models.CASCADE)
+    doc = models.DateTimeField(auto_now_add=True)
 
     def get_total_discount(self):
         return self.item.price - self.item.discount_price
@@ -44,7 +45,6 @@ class OrderItem(models.Model):
         return self.item.discount_price
 
 
-
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     ref_code = models.CharField(max_length=15)
@@ -52,8 +52,7 @@ class Order(models.Model):
     items = models.ManyToManyField(OrderItem)
     starting_date = models.DateTimeField()
     ordered_date = models.DateTimeField()
-    coupon = models.ForeignKey('Coupon',on_delete=models.SET_NULL,null=True)
-
+    coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, null=True)
 
     def get_total_price(self):
         total = 0
@@ -65,11 +64,12 @@ class Order(models.Model):
         total = 0
         for order_item in self.items.all():
             total += order_item.get_discount_total()
+        if self.coupon:
+            total -= self.coupon.amount
         return total
 
-    def get_tatal_save_amount(self):
+    def get_total_save_amount(self):
         return self.get_total_price() - self.get_payable_price()
-
 
 
 class Coupon(models.Model):
@@ -79,5 +79,3 @@ class Coupon(models.Model):
 
     def __str__(self):
         return self.code
-
-    
