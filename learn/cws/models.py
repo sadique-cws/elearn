@@ -53,6 +53,7 @@ class Order(models.Model):
     starting_date = models.DateTimeField()
     ordered_date = models.DateTimeField()
     coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, null=True)
+    address = models.ForeignKey('Address',on_delete=models.SET_NULL,null=True)
 
     def get_total_price(self):
         total = 0
@@ -79,3 +80,21 @@ class Coupon(models.Model):
 
     def __str__(self):
         return self.code
+
+
+class Address(models.Model):
+    name = models.CharField(max_length=200,null=True)
+    contact = models.IntegerField()
+    area = models.TextField()
+    city = models.CharField(max_length=20)
+    state = models.CharField(max_length=200)
+    pin_code = models.IntegerField()
+    landmark = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return self.user.username
+    
+    
+

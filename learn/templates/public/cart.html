@@ -24,7 +24,6 @@
             <div class="col l4 s12">
                 <div class="card shadow-sm">
                     <div class="card-header">Price Details</div>
-                    <form action="https://www.codewithsadiq.com/student/PaytmGateway/7YvPGNj" method="post">
                         <ul class="collection">
                             <li class="collection-item">Total Amount <span class="right">₹{{order.get_total_price|floatformat:'0' }}</span></li>
                             {% if order.coupon %}
@@ -41,11 +40,9 @@
                             <li class="collection-item font-weight-bold">Payable Amount<span class="right">₹{{order.get_payable_price|floatformat:'0'}}</span></li>
                         </ul>
                         <div class="card-content px-0 pt-0 pb-5">
-                            <input type="text" name="order_id" value="92" hidden="" class="mdl-textfield__input">
-                            <input type="submit" class="btn right blue darken-4" value="Proceed to Pay">
+                            <a href="{% url 'checkout' %}" class="btn right blue darken-4">checkout</a>
                             <a href="{% url 'homepage' %}" class="btn left orange darken-4">Go Back</a>
                         </div>
-                    </form>
                 </div>
                 {% if not order.coupon %}
                     <form class="px-2" action="{%  url 'add-coupon' %}" method="POST">

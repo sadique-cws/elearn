@@ -1,0 +1,37 @@
+{% extends 'public/base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col l9">
+                {% if address %}
+                <div class="card">
+                        <div class="card-content">
+                            <form action="{% url 'last_step' %}" method="POST">
+                                {% csrf_token %}
+                                <select name="address" id="" onchange="this.form.submit()">
+                                    <option value="">select your address</option>
+                                    {% for a in address%}
+                                        <option value="{{a.id}}">{{a.area}} - {{ a.city}} ( {{a.state }}) - {{a.pin_code}}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
+                </div>
+                {% endif %}
+
+                <div class="card">
+                    <div class="card-content">Fill your address</div>
+                    <div class="card-content">
+                            <form action="{% url 'checkout' %}" method="POST">
+                                {% csrf_token %}
+                                {{ addressForm }}
+                                <div>
+                                    <input type="submit" class="btn green text-white w-100">
+                                </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

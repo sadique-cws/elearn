@@ -3,7 +3,8 @@ from cws.models import *
 from django.views.generic import ListView, View, DetailView
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
-
+from cws.forms import AddressForm
+from django.contrib.auth.models import User
 
 cart_obj = OrderItem.objects.all()
 
@@ -120,6 +121,52 @@ def add_coupon(r):
         # msg something went wrong
         return redirect('cart')
 
+
+
+def makePayment(r):
+    order = Order.objects.filter(user=r.user,ordered=False)
+    order = order[0]
+    order.ordered = True
+    order.ref_code = "21312321fsdasd"
+    order.save()
+
+    for x in order.items.all():
+        x.ordered = True
+        x.save()
+
+
+def checkout(r):
+    form = AddressForm(r.POST or None)
+    
+    # user = User.objects.get(username=r.user.username)
+
+    if r.method == "POST":
+        if form.is_valid():
+            f = form.save(commit=False)
+            f.user = r.user
+            f.save()
+
+            return redirect("checkout")
+
+    data = {"addressForm":form,"address":Address.objects.filter(user=r.user)}
+    return render(r,"public/checkout.html",data)
+
+def last_step(r):
+    if r.method == "POST":
+        address = r.POST.get("address")
+
+        try:
+            address = Address.objects.get(user=r.user,id=address)
+        except ObjectDoesNotExist:
+            #msg this address is not found in your account
+            return redirect("checkout")
+        
+        order = Order.objects.filter(user=r.user, ordered=False)
+        order = order[0]
+        order.address = address
+        order.save()
+        makePayment(r)
+        return redirect("homepage")
 
 class RemoveAppliedCoupon(View):
     def get(self, *args, **kwargs):
