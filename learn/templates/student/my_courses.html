@@ -1,0 +1,27 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    my cart
+{% endblock  %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+            {% for o in order %}
+            <h6>Order Id:   {{ o.ref_code }} </h6>
+                <ul class="collection">
+                    {% for x in o.items.all %}
+                        <li class="collection-item avatar">
+                            <img class="circle" width="140px" src="{{x.item.image.url}}" alt="{{ order_item.course.title }}">
+                            <h6 class="mt-0 font-weight-bold text-capitalize">{{x.item.title}}</h6>
+                            <span class="green-text"><strong>₹{{ x.item.discount_price }}</strong> </span>
+                            <del class="text-muted small mx-1">₹{{ x.item.price }}</del>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+            </div>
+       </div>
+    </div>
+{% endblock  %}

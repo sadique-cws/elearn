@@ -10,4 +10,5 @@ urlpatterns = [
     path('remove-coupon/', RemoveAppliedCoupon.as_view(), name="remove-coupon"),
     path('checkout/', checkout, name="checkout"),
     path('last-step/', last_step, name="last_step"),
+    path('my-courses/', myCourse, name="my-courses"),
 ]

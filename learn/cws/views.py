@@ -5,9 +5,15 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from cws.forms import AddressForm
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+import string
+import random
 
 cart_obj = OrderItem.objects.all()
 
+def create_ref_code(digit):
+    return "".join(random.choices(string.digits,k=digit))
 
 class HomeView(ListView):
     model = Category
@@ -30,12 +36,12 @@ class CourseView(DetailView):
     #     return context
 
 
-class CartView(ListView):
+class CartView(LoginRequiredMixin,ListView):
     model = Course
     template_name = "public/cart.html"
 
 
-class OrderSummary(View):
+class OrderSummary(LoginRequiredMixin,View):
 
     def get(self, *args, **kwargs):
         try:
@@ -51,7 +57,7 @@ class OrderSummary(View):
     template_name = "public/cart.html"
 
 
-class RemoveCartItem(View):
+class RemoveCartItem(LoginRequiredMixin,View):
     def get(self, request, slug, *args, **kwargs):
         item = get_object_or_404(Course, slug=slug)
 
@@ -68,7 +74,7 @@ class RemoveCartItem(View):
             return redirect("cart")
 
 
-class AddToCart(View):
+class AddToCart(LoginRequiredMixin,View):
     def get(self, request,  slug, *args, **kwargs):
         item = get_object_or_404(Course, slug=slug)
 
@@ -104,7 +110,7 @@ def check_coupon(code):
     if coupon.exists():
         return coupon[0]
 
-
+@login_required
 def add_coupon(r):
     if r.method == "POST":
         code = r.POST.get('code')
@@ -122,19 +128,19 @@ def add_coupon(r):
         return redirect('cart')
 
 
-
+@login_required
 def makePayment(r):
     order = Order.objects.filter(user=r.user,ordered=False)
     order = order[0]
     order.ordered = True
-    order.ref_code = "21312321fsdasd"
+    order.ref_code = create_ref_code(8)
     order.save()
 
     for x in order.items.all():
         x.ordered = True
         x.save()
 
-
+@login_required
 def checkout(r):
     form = AddressForm(r.POST or None)
     
@@ -151,6 +157,7 @@ def checkout(r):
     data = {"addressForm":form,"address":Address.objects.filter(user=r.user)}
     return render(r,"public/checkout.html",data)
 
+@login_required
 def last_step(r):
     if r.method == "POST":
         address = r.POST.get("address")
@@ -166,9 +173,9 @@ def last_step(r):
         order.address = address
         order.save()
         makePayment(r)
-        return redirect("homepage")
+        return redirect("my-courses")
 
-class RemoveAppliedCoupon(View):
+class RemoveAppliedCoupon(View,LoginRequiredMixin):
     def get(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
@@ -178,3 +185,9 @@ class RemoveAppliedCoupon(View):
             return redirect("cart")
         except ObjectDoesNotExist:
             return redirect("cart")
+
+
+def myCourse(r):
+    order = Order.objects.filter(user=r.user,ordered=True)
+    data = {"order":order}
+    return render(r,"student/my_courses.html",data)
