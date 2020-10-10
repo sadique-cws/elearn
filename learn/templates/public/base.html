@@ -13,6 +13,8 @@
 </head>
 
 <body>
+  {% load cart_count %}
+
   {% if user.is_authenticated %}
   <!-- with user authenticated -->
   <div class="navbar-fixed">
@@ -33,7 +35,7 @@
                 <span class="right">
                   <sup class="badge text-white red new px-2 py-1 circle">
                     <!-- todo order count work -->
-                    {{ orderitem|length }} </sup>
+                    {{ request.user|cart_count }} </sup>
                 </span>
               </a>
             </li>
@@ -81,7 +83,7 @@
             <li>
               <a href="{% url 'cart'%}" class=" black-text"><i class="material-icons left mr-1">shopping_cart</i>Cart
                 <span class="right">
-                  <sup class="badge text-white red new px-2 py-1 circle">0</sup>
+                  <sup class="badge text-white red new px-2 py-1 circle">{{ request.user|cart_count}}</sup>
                 </span>
               </a>
             </li>
